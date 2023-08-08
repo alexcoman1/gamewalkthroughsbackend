@@ -8,7 +8,9 @@ const Comment = require('../models/comment')
 router.use(
     cors({
         credentials: true,
-        origin: 'http://localhost:5173'
+        origin: 'https://gamewalkthroughs.onrender.com',
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        optionsSuccessStatus: 204
     }))
 
 
