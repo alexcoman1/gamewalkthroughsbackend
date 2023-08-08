@@ -7,17 +7,16 @@ const Comment = require('../models/comment')
 //middleware
 router.use(
     cors({
-        credentials: true,
-        origin: 'https://gamewalkthroughs.onrender.com',
-        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        optionsSuccessStatus: 204
+        origin: "https://gamewalkthroughs.onrender.com",
+        methods: ["POST", "GET"],
+        credentials: true
     }))
 
 
 router.get('/', test)
 router.post('/register', registerUser)
 router.post('/login', loginUser)
-router.get('/profile', getProfile)
+router.get('/profile', ensureAuth, getProfile)
 router.get('/comments', async (req, res) => {
     try {
         const comments = await Comment.find({}).populate('author', 'name').exec()
