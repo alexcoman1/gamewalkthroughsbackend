@@ -74,5 +74,10 @@ router.delete('/comments/:commentId', ensureAuth, async (req, res) => {
     }
 })
 
+router.get('/logout', (req, res) => {
+    res.clearCookie('token', {sameSite: 'none', secure:true })
+    res.json({message: 'Logged out successfully' })
+})
+
 
 module.exports = router
