@@ -11,7 +11,7 @@ const Comment = require('../models/comment')
 router.use(
     cors({
         origin: "https://gamewalkthroughs.onrender.com",
-        methods: ["POST", "GET"],
+        methods: ["POST", "GET", "DELETE"],
         credentials: true
     }))
 
@@ -45,6 +45,30 @@ router.post('/comments', ensureAuth, async (req, res) => {
 
         res.json({message: 'Comment successfully added', comment})
     } catch(err) {
+        console.error(err)
+        res.status(500).send('Server error')
+    }
+})
+
+router.delete('/comments/:commentId', ensureAuth, async (req, res) => {
+    try {
+        const commentId = req.params.commentId
+        const userId = req.user.id
+
+        const comment = await Comment.findById(commentId)
+
+        if (!comment) {
+            return res.status(404).json({ message: 'Comment not found' })
+        }
+
+        if (comment.author.toString() !== userId) {
+            return res.status(403).json({ message: 'Not authorized to delete this comment'})
+        }
+
+        await Comment.findByIdAndDelete(commentId)
+
+        res.json({ message: 'Comment successfully deleted' })
+    } catch (err) {
         console.error(err)
         res.status(500).send('Server error')
     }
