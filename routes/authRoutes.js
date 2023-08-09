@@ -4,6 +4,9 @@ const cors = require('cors')
 const {test, registerUser, loginUser, getProfile, ensureAuth} = require('../controllers/authController')
 const Comment = require('../models/comment')
 
+
+
+
 //middleware
 router.use(
     cors({
