@@ -16,7 +16,7 @@ router.use(
 router.get('/', test)
 router.post('/register', registerUser)
 router.post('/login', loginUser)
-router.get('/profile', ensureAuth, getProfile)
+router.get('/profile', getProfile)
 router.get('/comments', async (req, res) => {
     try {
         const comments = await Comment.find({}).populate('author', 'name').exec()
