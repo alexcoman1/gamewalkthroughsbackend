@@ -63,7 +63,11 @@ const loginUser = async (req, res) => {
         if(match) {
             jwt.sign({email: user.email, id: user._id, name: user.name}, process.env.JWT_SECRET, {}, (err, token) => {
                 if(err) throw err;
-                res.cookie('token', token).json(user)
+                res.cookie('token', token, {
+                    sameSite: 'none',
+                    secure: true,
+                    httpOnly: true
+                }).json(user)
             })
         }
         if(!match) {
