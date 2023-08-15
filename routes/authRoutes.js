@@ -22,7 +22,8 @@ router.post('/login', loginUser)
 router.get('/profile', getProfile)
 router.get('/comments', async (req, res) => {
     try {
-        const comments = await Comment.find({}).populate('author', 'name').exec()
+        const page = req.query.page
+        const comments = await Comment.find({ page: page }).populate('author', 'name').exec()
         res.json(comments)
     } catch (err) {
         console.error(err)
@@ -32,12 +33,13 @@ router.get('/comments', async (req, res) => {
 
 router.post('/comments', ensureAuth, async (req, res) => {
     try {
-        const { text } = req.body
+        const { text, page } = req.body
         const userId = req.user.id
 
         const comment = await Comment.create ({
             text: text,
-            author: userId
+            author: userId,
+            page: page
         })
 
         await comment.save()
