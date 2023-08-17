@@ -10,7 +10,7 @@ const Comment = require('../models/comment')
 //middleware
 router.use(
     cors({
-        origin: "https://gamewalkthroughs.onrender.com",
+        origin: "https://gamewalkthroughs-api.onrender.com",
         methods: ["POST", "GET", "DELETE"],
         credentials: true
     }))
